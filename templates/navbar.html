@@ -1,0 +1,26 @@
+{% load static %}
+<nav>
+  <div class="container2">
+      <img src="{% static 'images/logo-no-background.png' %}" class="logo">
+      <div class="search-bar">
+          <span class="material-icons-sharp">search</span>
+          <input type="search" placeholder="Search">
+      </div>
+      <div class="profile-area">
+          <div class="theme-btn">
+              <span class="material-icons-sharp active">light_mode</span>
+              <span class="material-icons-sharp">dark_mode</span>
+          </div>
+          <div class="profile">
+              <div class="profile-photo">
+                  <img src="{% static 'images/avatar.svg' %}" alt="">
+              </div>
+              <h5>Miko Dawili</h5>
+              <span class="material-icons-sharp">expand_more</span>
+          </div>
+          <button id="menu-btn">
+              <span class="material-icons-sharp">menu</span>
+          </button>
+      </div>
+  </div>
+</nav>

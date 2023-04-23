@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style id="compiled-css" type="text/css">
+/* second example */
+.data {
+  overflow: scroll;
+}
+.column-layout {
+  display: flex;  
+  max-width: 1500px;
+  background-color: #FFF;
+  margin: 40px auto 0 auto;
+  line-height: 1.65;
+  padding: 20px 50px;
+  border-radius: 3px;
+}
+
+.form__group {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.form__group label {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form__group input,
+.form__group textarea,
+.form__group select {
+  /* border: 1px solid var(--color-dark-light); */
+  padding: 1rem;
+  border-radius: 3px;
+  width: 100%;
+  color: var(--color-light);
+  font-weight: 500;
+  outline: none;
+}
+
+
+.form__group input:focus,
+.form__group textarea:focus {
+  border-color: var(--color-main);
+}
+
+.form__group textarea {
+  background: transparent;
+  height: 10rem;
+  resize: none;
+}
+
+.form__group select {
+  color: var(--color-gray);
+  font-weight: 400;
+}
+
+.form__group select option {
+  background-color: var(--color-dark-light);
+  color: var(--color-light);
+  padding: 0 10rem;
+}
+
+.form__action {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3rem;
+}
+
+</style>
+<section id="content">
+  <main>
+    <div class="data2">
+      <div class="content-data">
+        <!-- second example -->
+        <div class="column-layout">
+          <div class="main-column2">
+            <form action="" method="POST">
+              {% csrf_token %}
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_category">Enter a Category</label>
+                  <input required type="text" value="{{ticket.category.name}}" name="category" list="category-list" />
+                  <datalist id="category-list">
+                  <select id="ticket_category">
+                    {% for category in categories %}
+                    <option value="{{category.name}}">{{category.name}}</option>
+                    {% endfor %}
+                  </select>
+                  </datalist>
+                </span>
+              </div>
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_name">Ticket Name</label>
+                  {{form.name}}</span>
+              </div>
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_description">Ticket Description</label>
+                  {{form.description}}</span>
+              </div>
+              <div class="form__group">
+                <label for="ticket_assignee">Assigned To</label>
+                {% for user in users %}
+                <span style="white-space: pre-line"><input type="checkbox" name="assignee" value="{{ user.id }}">
+                  {{ user.username }} </span>
+                {% endfor %}
+              </div>
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_name">Project</label>
+                  {{form.project}}</span>
+              </div>
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_name">Ticket Status</label>
+                  {{form.status}}</span>
+              </div>
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_name">Ticket Priorities</label>
+                  {{form.priority}}</span>
+              </div>
+              <div class="form__group">
+                <span style="white-space: pre-line"><label for="ticket_name">Ticket Type</label>
+                  {{form.type}}</span>
+              </div>
+              <div class="form__action">
+                <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+                <button class="btn btn--main" type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <main>
+</section>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock content %}

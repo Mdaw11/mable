@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block htmlhead %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/project.css' %}" />
+{% endblock htmlhead %}
+{% block content %}
+
+<main id="content">
+  <h1 class="title"><a href="#popup1" class="popup-container" role="button">Create New Project</a></h1>
+  <div class="popup-link">
+    <a href="#popup1">Click Me (Style 1)</a>
+  </div>
+  <div id="popup1" class="popup-container">
+    <div class="popup-content">
+      <a href="#" class="close">&times;</a>
+      <h3>Popup 1</h3>
+      <div class="main-column">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="form__group">
+            <span style="white-space: pre-line"><label for="project_name">Project Name</label>
+              {{form.name}}</span>
+          </div>
+          <div class="form__group">
+            <span style="white-space: pre-line"><label for="project_description">Project Description</label>
+              {{form.description}}</span>
+          </div>
+          <div class="form__action">
+            <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+            <button class="btn btn--main" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-data">
+  </div>
+  <div class="project-home-data">
+    <div class="project-card">
+        <div class="project-detail">
+          <h3 id="project-head">Projects</h3>
+          <div class="project-search">
+            <p>Show # Entries</p>
+            <form action="">
+              <input type="text" name="q" class="search-input" placeholder="Search">
+            </form>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Project Name</th>
+                <th>Description</th>
+                <th>Created</th>
+                <th>Updated</th>
+              </tr>
+            </thead>
+            {% for project in page_obj %}
+            <tbody>
+              <tr>
+                <td><a href="{% url 'project' project.id %}">{{project.name}}</a></td>
+                <td>{{ project.description }}</td>
+                <td>{{ project.created|date:"F d, Y" }}</td>
+                <td>{{ project.updated }}</td>
+                
+              </tr>
+              
+            </tbody>
+            {% endfor %}
+          </table>
+          <div class="project-pagination">
+            <p>Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries</p>
+            <div class="messages-links">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+              {% else %}
+                
+              {% endif %}
+  
+              {% for page in page_obj.paginator.page_range %}
+                {% if page_obj.number == page %}
+                  <a href="#" class="active">{{ page }}</a>
+                {% else %}
+                  <a href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+              {% endfor %}
+  
+              {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+              {% else %}
+                
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</main>
+{% endblock %}

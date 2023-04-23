@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block htmlhead %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/project.css' %}" />
+{% endblock htmlhead %}
+{% block content %}
+  
+<main id="content">
+  <!-- <h1 class="title">Dashboard</h1>
+  <ul class="breadcrumbs">
+    <li><a href="#">Home</a></li>
+    <li class="divider">/</li>
+    <li><a href="#" class="active">Dashboard</a></li>
+  </ul> -->
+  <div class="info-data">
+  </div>
+  <div class="project-detail">
+    <div class="project-detail-data">
+      <h3 id="project-head">Project Detail</h3>
+      <div class="menu">
+        <i class='bx bx-dots-horizontal-rounded icon'></i>
+        <ul class="menu-link">
+          <li><a href="{% url 'update-project' projects.id %}">Edit</a></li>
+          <li><a href="{% url 'delete-project' projects.id %}">Remove</a></li>
+        </ul>
+      </div>
+      <div class='parent'>
+        <div class='child'>
+          <h4>Project Name</h4>
+          <p>{{projects.name}}</p>
+        </div>
+        <div class='child-description'>
+          <h4>Project Description</h4>
+          <p>{{projects.description}}</p>
+        </div>
+      </div>
+      <div class="parent2">
+        <div class='child-personnel'>
+          <h4>Assigned Personnel</h4>
+          <div class="personnel-search">
+            <p>Show # Entries</p>
+            <form action="">
+              <input type="text" name="text" class="search" placeholder="Search">
+            </form>
+          </div>
+          <table>
+            <thead>
+              <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th></th>
+              <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ticket in page_obj %}
+              <tbody>
+                {% for user in ticket.assignee.all %}
+                  <tr>
+                  <td><a href="">{{user.username}}</a></td>
+                  <td>{{user.email}}</td>
+                  <td></td>
+                  <td>{{user.get_account_type_display}}</td>
+                  
+                  </tr>
+                {% endfor %}
+              </tbody>
+            {% endfor %}
+            </tbody>
+            </table>
+          <div class="personnel-pagination">
+            <p>Showing 1 to 5 of 5 entries </p>
+            <a href="#">1</a>
+          </div>
+        </div>
+        <div class='child-tickets'>
+          <h4>Tickets for this Project</h4>
+          <div class="ticket-search">
+            <p>Show # Entries</p>
+            <form action="">
+              <input type="text" name="search" class="search" placeholder="Search">
+            </form>
+          </div>
+          <table>
+            <thead>
+              <tr>
+              <th>Name</th>
+              <th>Assignee</th>
+              <th>Priority</th>
+              <th>Created</th>
+              <th>Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ticket in page_obj %}
+                <tr>
+                  <td><a href="{% url 'ticket' ticket.id %}">{{ ticket.name }}</a></td>
+                  <td>
+                    {% for user in ticket.assignee.all %}
+                      {{ user.username }}
+                    {% empty %}
+                      none
+                    {% endfor %}
+                  </td>
+                  <td>{{ ticket.priority }}</td>
+                  <td>{{ ticket.created }}</td>
+                  <td>{{ ticket.updated }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="ticket-pagination">
+            <p>Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries</p>
+            <div class="ticket-pagination-links">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+            {% else %}
+              
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+              {% if page_obj.number == page %}
+                <a href="#" class="active">{{ page }}</a>
+              {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+            {% else %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock content %}

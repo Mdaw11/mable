@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block htmlhead %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/ticket.css' %}" />
+{% endblock htmlhead %}
+{% block content %}
+
+<main id="content">
+  <h1 class="title"><a href="{% url 'create-ticket' %}" class="button-3" role="button">Create Ticket</a></h1>
+  <ul class="breadcrumbs">
+    <li><a href="#">Home</a></li>
+    <li class="divider">/</li>
+    <li><a href="#" class="active">Dashboard</a></li>
+  </ul>
+  <div class="info-data">
+  </div>
+  <div class="ticket-home-data">
+    <div class="ticket-content-data">
+      <div class="ticket-head">
+        <h3>Your Tickets</h3>
+      </div>
+      <div class="ticket-search">
+        <p>Show # Entries</p>
+        <form action="">
+          <input type="text" name="search" class="search-input" placeholder="Search" value="">
+        </form>
+        
+      </div>
+      <div class="ticket-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket Name</th>
+              <th>Assignee</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          {% for ticket in page_obj %}
+          <tbody>
+            <tr>
+            <td><a href="{% url 'ticket' ticket.id %}">{{ticket.name}}</a></td>
+            <td>
+            {% for assignee in ticket.assignee.all %}
+              <img src="{{ assignee.profile.profile_pic.url }}" alt="">
+              {{ assignee.username }}
+            {% endfor %}
+            </td>
+            <td>{{ticket.category}}</td>
+            <td>{{ticket.type}}</td>
+            <td class="{% if ticket.status == True %}open{% else %}closed{% endif %}">
+              {{ticket.status|yesno:"Open, Closed"}}</td>
+            <td>{{ticket.priority}}</td>
+            <td>{{ticket.created|date:"F d, Y"}}</td>
+            
+            </tr>
+            
+          </tbody>
+          {% endfor %}
+        </table>
+        <p>Showing 1 to 5 of 5 entries </p>
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+          {% else %}
+            
+          {% endif %}
+
+          {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == page %}
+              <a href="#" class="active">{{ page }}</a>
+            {% else %}
+              <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+          {% else %}
+            
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
