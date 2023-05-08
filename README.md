@@ -2,6 +2,8 @@
 
 Mable is a web-based bug tracking application created using Python/Django. It provides a platform to create projects and track issues or tickets within those projects. This document describes how to run the Mable project locally.
 
+![mable-landing](https://user-images.githubusercontent.com/75034316/236960765-e34a36b0-f42b-40cf-bde1-47e89ee5f84d.png)
+
 ## Account Choice
 ![mable-account-choice](https://user-images.githubusercontent.com/75034316/236364408-d68e0858-a895-462a-ac83-2466a3d044d4.png)
 ## Register
